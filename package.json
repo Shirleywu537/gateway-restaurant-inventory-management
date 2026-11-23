@@ -1,0 +1,17 @@
+{
+  "name": "gateway-inventory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check dist/app.js && node --check dist/core.js && node --check dist/data.js && node --check dist/charts.js && node --check dist/supplier.js && node --check dist/supplier-connection.js && node --check dist/supplier-demo.js && node --check dist/invoice.js && node --check dist/invoice-core.js && node --check dist/invoice-scanner.js",
+    "vendor:ocr": "node scripts/vendor-ocr.mjs"
+  },
+  "devDependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "pdfjs-dist": "6.5.438",
+    "tesseract.js": "7.0.0"
+  }
+}

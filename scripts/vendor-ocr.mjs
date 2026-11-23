@@ -1,0 +1,17 @@
+import {mkdir,copyFile,cp} from 'node:fs/promises';
+const dest=new URL('../dist/vendor/invoice/',import.meta.url),pkg=new URL('../node_modules/',import.meta.url);
+await mkdir(dest,{recursive:true});
+const copy=async(a,b)=>{const target=new URL(b,dest);await mkdir(new URL('./',target),{recursive:true});await copyFile(new URL(a,pkg),target);};
+for(const name of ['pdf','pdf.worker','pdf.renderer'])await copy(`pdfjs-dist/build/${name}.min.mjs`,`${name}.min.mjs`);
+await cp(new URL('pdfjs-dist/wasm/',pkg),new URL('wasm/',dest),{recursive:true});
+await cp(new URL('pdfjs-dist/standard_fonts/',pkg),new URL('standard_fonts/',dest),{recursive:true});
+await copy('pdfjs-dist/LICENSE','PDFJS-LICENSE.txt');
+await copy('tesseract.js/dist/tesseract.esm.min.js','tesseract.esm.min.js');
+await copy('tesseract.js/dist/worker.min.js','worker.min.js');
+await copy('tesseract.js/LICENSE.md','TESSERACT-LICENSE.txt');
+await copy('tesseract.js/dist/tesseract.min.js.LICENSE.txt','tesseract.min.js.LICENSE.txt');
+await copy('tesseract.js/dist/worker.min.js.LICENSE.txt','worker.min.js.LICENSE.txt');
+for(const name of ['tesseract-core-lstm','tesseract-core-simd-lstm','tesseract-core-relaxedsimd-lstm'])await copy(`tesseract.js-core/${name}.wasm.js`,`core/${name}.wasm.js`);
+await copy('tesseract.js-core/LICENSE','core/LICENSE.txt');
+await copy('@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz','lang/eng.traineddata.gz');
+console.log('Vendored PDF rendering and English OCR assets.');
